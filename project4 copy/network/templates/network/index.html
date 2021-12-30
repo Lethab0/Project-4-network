@@ -1,0 +1,111 @@
+{% extends "network/layout.html" %}
+{% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+{% block Script %}
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="{% static 'network/Async.js' %}"></script>
+{% endblock %}
+
+
+{% block body %}
+
+{% if user.is_authenticated %}
+<form action="{% url 'AddPost' %}"  method="POST">
+
+    {% csrf_token %}
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-8">
+                <div class="d-flex flex-column comment-section">
+                    <div class="bg-light p-2">
+                        <textarea class="form-control ml-1 shadow-none textarea" name="text"></textarea></div>
+                        <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endif %}
+
+<!-- add new post section
+{% if user.is_authenticated %}
+    New Post
+
+    <form action="{% url 'AddPost' %}"  method="POST">
+        {% csrf_token %}
+        {{ Form }}
+        <button type="submit"> submit</button>
+    </form>
+{% endif %}           
+        -->
+        {% for Post in page_obj %}
+        
+        <div class="post" id="{{ Post.Texter.id}}">
+            <div class="content">
+              <a href="Profile/{{ Post.Texter.id }}" > <h3>{{ Post.Texter }}</h3> </a>
+            
+                
+                <div id="text-before{{post.id}}">
+                    <h5 class="post_text" id="{{ Post.id}}">{{ Post.text }}</h5>
+                </div>
+                <h8> {{ Post.text_date }}</h8>
+                <div>
+                <span class="like_objects"><i data-feather="heart" class="likes" id="{{ Post.id }}"></i>  
+                <h8 class="like_count" id="{{ Post.id }}"> {{ Post.likes }}</h8>
+                </span>
+                </div>
+            </div>
+        </div>
+                <hr>            
+        
+        {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <span class="current">
+                    <li class="page-item"><a class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</a></li>
+                </span>
+                {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                {% endif %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                {% endif %}              
+            </ul>
+          </nav>
+        </span>
+    </div>
+
+
+<!--
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>  -->
+
+
+
+
+<script>feather.replace()</script>     
+      
+{% endblock %}

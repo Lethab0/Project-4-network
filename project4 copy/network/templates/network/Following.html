@@ -1,0 +1,43 @@
+{% extends "network/layout.html" %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+{% block body %}
+
+{% for Post in page_obj %}
+        
+<div class="post" id="{{post.id}}">
+    <div class="content">
+      <a href="Profile/{{ Post.Texter.id }}" > <h3>{{ Post.Texter }}</h3> </a>
+    
+        
+        <div id="text-before{{post.id}}">
+            <h5>{{ Post.text }}</h5>
+        </div>
+        <h8> {{ Post.text_date }}</h8>
+        <div>
+        <h8> {{ Post.likes }}</h8>
+        </div>
+
+        <hr>            
+
+{% endfor %}
+<div class="pagination">
+<span class="step-links">
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <span class="current">
+            <li class="page-item"><a class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</a></li>
+        </span>
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        
+        {% if page_obj.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+        {% endif %}              
+    </ul>
+  </nav>
+</span>
+</div>
+{% endblock %}
